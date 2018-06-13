@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.mirs.dao.MovieDao">
+    <sql id="selectAllMovieColumn">
+        SELECT
+            id,
+            douban_id,
+            name,
+            douban_rating,
+            imdb_rating,
+            release_year,
+            directors,
+            screenwriters,
+            actors,
+            types,
+            official_website,
+            origin_place,
+            release_date,
+            languages,
+            runtime,
+            another_names,
+            imdb_link,
+            cover_link,
+            synopsis,
+            stills_photos_links,
+            poster_photos_links,
+            wallpaper_photos_links,
+            awards,
+            also_like_movies,
+            reviews,
+            short_pop_comments
+        FROM mirs_movie
+    </sql>
+    <sql id="simpleMovieColumn">
+        SELECT
+            t1.id,
+            t1.name,
+            t1.douban_rating,
+            t1.imdb_rating,
+            t1.release_year,
+            t1.directors,
+            t1.screenwriters,
+            t1.actors,
+            t1.types,
+            t1.origin_place,
+            t1.languages,
+            t1.runtime,
+            t1.cover_link,
+            t1.synopsis
+        FROM mirs_movie AS t1
+    </sql>
+    <sql id="indexMovieColumn">
+        SELECT
+            id,
+            name,
+            release_year,
+            directors,
+            screenwriters,
+            actors,
+            types,
+            origin_place,
+            languages,
+            another_names,
+            cover_link,
+            synopsis
+        FROM mirs_movie
+    </sql>
+
+
+    <sql id="additionalCondition">
+        ORDER BY ${orderBy} DESC
+        LIMIT #{limit}
+        offset #{offset}
+    </sql>
+
+    <select id="getMovies" resultType="com.kevin.mirs.entity.Movie">
+        <include refid="selectAllMovieColumn"></include>
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getIndexMovies" resultType="com.kevin.mirs.entity.Movie">
+        <include refid="indexMovieColumn"></include>
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMovieById" resultType="com.kevin.mirs.entity.Movie">
+        <include refid="selectAllMovieColumn"></include>
+        WHERE id = #{id}
+    </select>
+
+    <select id="getMovieByDoubanId" resultType="com.kevin.mirs.entity.Movie">
+        <include refid="selectAllMovieColumn"></include>
+        WHERE douban_id = #{doubanId}
+    </select>
+
+    <select id="getMovieByMovieName" resultType="com.kevin.mirs.entity.Movie">
+        <include refid="selectAllMovieColumn"></include>
+        WHERE name = #{movieName}
+    </select>
+
+    <select id="getMoviesIncludeMovieName" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE name like '%${movieName}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+
+    <select id="getMoviesByDoubanRating" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE <![CDATA[douban_rating >= #{low}]]>
+        AND <![CDATA[douban_rating <= #{high}]]>
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesByIMDbRating" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE <![CDATA[imdb_rating >= #{low}]]>
+        AND <![CDATA[imdb_rating <= #{high}]]>
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesByReleaseYear" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE release_year = #{year}
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesByReleaseYears" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE <![CDATA[release_year >= #{low}]]>
+        AND <![CDATA[release_year <= #{high}]]>
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesByRuntime" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE <![CDATA[runtime >= #{low}]]>
+        AND <![CDATA[runtime <= #{high}]]>
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeDirector" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE directors like '%${director}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeScreenwriter" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE screenwriters like '%${screenwriter}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeActor" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE actors like '%${actor}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeType" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE types like '%${type}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeOriginPlace" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE origin_place like '%${originPlace}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeLanguage" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE languages like '%${language}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeAnotherName" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE another_names like '%${anotherName}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getMoviesIncludeAward" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        WHERE awards like '%${award}%'
+        <include refid="additionalCondition"></include>
+    </select>
+
+    <select id="getSuggestedMovie" resultType="com.kevin.mirs.vo.SuggestionMovie">
+        SELECT
+            id,
+            name,
+            cover_link
+        FROM mirs_movie
+        WHERE id = #{id}
+    </select>
+
+    <select id="getRandomSimpleMovies" resultType="com.kevin.mirs.vo.SimpleMovie">
+        <include refid="simpleMovieColumn"></include>
+        JOIN (
+        SELECT ROUND(RAND() * ((SELECT MAX(id) FROM mirs_movie)-(SELECT MIN(id) FROM mirs_movie))+(SELECT MIN(id) FROM
+        mirs_movie)) AS id
+        FROM mirs_movie LIMIT #{limit}) AS t2 on t1.id=t2.id
+        ORDER BY t1.id LIMIT #{limit};
+    </select>
+
+
+
+</mapper>

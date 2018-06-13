@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.mirs.dao.UserDao">
+
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.kevin.mirs.entity.User">
+        INSERT ignore INTO mirs_user(username, password, salt, email, register_time, register_ip)
+         VALUES (#{username}, #{password}, #{salt}, #{email}, #{registerTime}, #{registerIp})
+    </insert>
+
+    <update id="updateUsernameByUserId">
+        UPDATE
+          mirs_user
+        SET
+          username = #{username}
+        WHERE
+          id = #{id}
+        AND status = 1
+
+    </update>
+    <update id="updateUserPasswordByUserId">
+        UPDATE
+          mirs_user
+        SET
+          password = #{password}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserSaltByUserId">
+        UPDATE
+          mirs_user
+        SET
+          salt = #{salt}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserAvatarByUserId">
+        UPDATE
+          mirs_user
+        SET
+           avatar= #{avatar}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserEmailByUserId">
+        UPDATE
+          mirs_user
+        SET
+          email = #{email}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserBioByUserId">
+        UPDATE
+          mirs_user
+        SET
+          bio = #{bio}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserLocationByUserId">
+        UPDATE
+          mirs_user
+        SET
+          location = #{location}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserUniversityByUserId">
+        UPDATE
+          mirs_user
+        SET
+          university = #{university}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserMajorByUserId">
+        UPDATE
+          mirs_user
+        SET
+          major = #{major}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserLoginInfoByUserId">
+        UPDATE
+          mirs_user
+        SET
+          last_login_time = #{time},
+          last_login_ip = #{ip}
+        WHERE
+          id = #{id}
+        AND status = 1
+    </update>
+    <update id="updateUserProfile" parameterType="com.kevin.mirs.vo.UserProfile">
+        UPDATE
+            mirs_user
+        SET
+            username = #{username},
+            email = #{email},
+            bio = #{bio},
+            location = #{location},
+            university = #{university},
+            major = #{major}
+        WHERE
+            id = #{id}
+            AND status = 1
+    </update>
+    <select id="getUserByUsername" resultType="com.kevin.mirs.entity.User">
+        SELECT * FROM mirs_user WHERE username = #{username}
+    </select>
+    <select id="getUserByUserEmail" resultType="com.kevin.mirs.entity.User">
+        SELECT * FROM mirs_user WHERE email = #{email}
+    </select>
+    <select id="checkUsername" resultType="java.lang.Integer">
+        SELECT count(*) FROM mirs_user WHERE username = #{username}
+    </select>
+    <select id="checkUserEmail" resultType="java.lang.Integer">
+        SELECT count(*) FROM mirs_user WHERE email = #{email}
+    </select>
+    <select id="getUserProfileByUserId" resultType="com.kevin.mirs.vo.UserProfile">
+        SELECT id, username, email, bio, location, university, major FROM mirs_user WHERE id = #{id}
+    </select>
+    <select id="getUserPasswordByUserId" resultType="com.kevin.mirs.entity.User">
+        SELECT id, password, salt FROM mirs_user WHERE id = #{id}
+    </select>
+
+
+</mapper>

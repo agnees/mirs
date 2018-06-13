@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.mirs.dao.ScoreDao">
+
+    <select id="selectByMid" resultType="com.kevin.mirs.entity.Score">
+      SELECT id,uid,mid,score,update_time as updateTime
+      FROM mirs_user_movie WHERE mid = #{mid} ORDER BY update_time DESC
+    </select>
+
+
+    <select id="selectByUid" resultType="com.kevin.mirs.entity.Score">
+        SELECT id,uid,mid,score,update_time as updateTime
+        FROM mirs_user_movie WHERE uid = #{uid} ORDER BY update_time DESC
+    </select>
+
+
+    <select id="selectById" resultType="com.kevin.mirs.entity.Score">
+        SELECT id,uid,mid,score,update_time as updateTime
+        FROM mirs_user_movie WHERE id = #{id}
+    </select>
+
+
+    <update id="updateScore" parameterType="com.kevin.mirs.entity.Score">
+        UPDATE mirs_user_movie
+        SET score = #{score.score},update_time=#{score.updateTime}
+        WHERE id = #{score.id}
+    </update>
+
+    <insert id="insertScore" parameterType="com.kevin.mirs.entity.Score">
+        INSERT INTO mirs_user_movie(uid,mid,score,update_time)
+        VALUES (#{score.uid},#{score.mid},#{score.score},#{score.updateTime})
+    </insert>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.mirs.dao.CommentDao">
+    <select id="selectByMid" resultType="com.kevin.mirs.entity.Comment">
+        SELECT id,uid,mid,content,is_delete as isDelete,update_time as updateTime
+        FROM mirs_user_comment WHERE mid = #{mid} and is_delete = 0
+        ORDER BY update_time DESC
+    </select>
+
+
+    <select id="selectByUid" resultType="com.kevin.mirs.entity.Comment">
+        SELECT id,uid,mid,content,is_delete as isDelete,update_time as updateTime
+        FROM mirs_user_comment WHERE uid = #{uid} and is_delete = 0
+        ORDER BY update_time DESC
+    </select>
+
+
+    <select id="selectById" resultType="com.kevin.mirs.entity.Comment">
+        SELECT id,uid,mid,content,is_delete as isDelete,update_time as updateTime
+        FROM mirs_user_comment WHERE id = #{id} and is_delete = 0
+    </select>
+
+
+    <update id="updateComment" parameterType="com.kevin.mirs.entity.Comment">
+        UPDATE mirs_user_comment
+        SET content = #{comment.content},update_time=#{comment.updateTime}
+        WHERE uid = #{comment.uid} and mid = #{comment.mid}
+    </update>
+
+    <update id="updateCommentStatus">
+        UPDATE mirs_user_comment
+        SET is_delete=1
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertComment" parameterType="com.kevin.mirs.entity.Comment">
+        INSERT INTO mirs_user_comment(uid,mid,content,is_delete,update_time)
+        VALUES (#{comment.uid},#{comment.mid},#{comment.content},#{comment.isDelete},
+        #{comment.updateTime})
+    </insert>
+
+</mapper>

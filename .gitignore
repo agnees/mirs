@@ -1,0 +1,15 @@
+# IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out
+
+*.log
+target/
+
+lib
+
+# 配置文件
+src/main/resources/properties/jdbc-prod.properties
+src/main/resources/properties/mail-prod.properties

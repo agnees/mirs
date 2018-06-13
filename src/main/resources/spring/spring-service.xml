@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- 扫描service 包下所有注解的类型 -->
+    <context:component-scan base-package="com.kevin.*.service"/>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+
+    </bean>
+
+    <!--配置基于注解的声明式事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 定时任务 -->
+    <context:component-scan base-package="com.kevin.mirs.jobs"></context:component-scan>
+
+    <!-- 发送邮件 -->
+
+    <!-- JavaMail相关配置 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
+        <property name="host" value="${mailHost}"></property>
+        <property name="username" value="${maillUsername}"></property>
+        <property name="password" value="${mailPassword}"></property>
+        <property name="protocol" value="smtp"></property>
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.from">${mailFrom}</prop>
+                <prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <!--<prop key="mail.debug">true</prop>-->
+            </props>
+        </property>
+    </bean>
+
+
+</beans>

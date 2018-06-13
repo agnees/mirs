@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.mirs.dao.UserRecommendedMoviesDao">
+
+    <insert id="addUserRecommendedMovies">
+        INSERT ignore INTO mirs_user_recommended_movies(uid, rmid, rmv)
+        VALUES
+        <foreach collection="rms" item="rm" index="index" separator=",">
+            (#{uid}, #{rm.itemID}, #{rm.value})
+        </foreach>
+    </insert>
+
+    <delete id="clearUserRecommendedMovies">
+        DELETE FROM mirs_user_recommended_movies
+        WHERE uid = #{uid}
+    </delete>
+
+    <select id="getUserRecommendedMovies" resultType="UserRecommendedMovies">
+        SELECT rmid rmv FROM mirs_user_recommended_movies
+        WHERE uid = #{uid}
+    </select>
+
+
+</mapper>
